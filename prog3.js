@@ -3,7 +3,9 @@ let R=document.getElementById('result');
 let result=R.innerHTML;
 let E=document.getElementById('equation');
 let equation=E.innerHTML;
-let clicks=0;
+let clicks;
+console.log('clicks= ',clicks)
+
 for (let i = 0; i < buttons.length; i++){
     buttons[i].addEventListener('click', function(){
         const buttonValue = this.value;
@@ -31,42 +33,49 @@ for (let i = 0; i < buttons.length; i++){
                 case 'C':
                     result='';
                     equation='';
-                    clicks=0;
+                    clicks=undefined;
                     break;
                 case '%':
                 case '+':
                 case '-':
                 case '/':
                 case '*':
+                
                     let array11=result.split('');
-                    let array22=equation.split('');
-                   
+                    const operators=['+','-','*','/','%']
                     if(equation==''){
                        equation=result+buttonValue;
                        result='';
+                       console.log(100)
                     }else if(result=='' && equation!==''){
                         let myArray=equation.split('');
                         myArray[myArray.length-1]=buttonValue;
                         equation=myArray.join('');
-                    }else if(array11[0]=='-' && array11.length>=2 && array22.length!==0){
+                        console.log(200)
+                    }else if(array11[0]=='-'){
+                       
                         array11.unshift('(');
                         array11.push(')')
-                        console.log('array11: ',array11);
+                        console.log('array11:******** ',array11);
                         equation+=array11.join('')+buttonValue;
                         result='';
-                    }else if(array11[0]=='-' && array11.length==1){
+                    }else if(isNaN(clicks)){
+                        equation+=result+buttonValue;
+                        result='';
+                        console.log(3000)
                         break;
                     }
                     else{
                         equation+=result+buttonValue;
                         result='';
-                        console.log(100)
+                        console.log(300)
                     }
                     break;
                 
                 
 
                 case '+/-':       
+                
                     let array1=result.split('');
                     let array2=equation.split('');
                     console.log('array1: ',array1);
@@ -88,13 +97,20 @@ for (let i = 0; i < buttons.length; i++){
                     break;
                 
                 case '=':
-                   
-                    if(result!='' && clicks==0){
+                    console.log('equal sign')
+                    console.log('clicks= ',clicks)
+                    console.log('equation= ',equation)
+                    if(result!='' && clicks==undefined){
                         clicks ++;
                         equation+=result;
                         result=eval(equation);
-                        console.log(clicks);
-                        
+                        console.log(111111111111);    
+                        break;
+                    }else if(isNaN(clicks)){
+                        equation+=result;
+                        result=eval(equation);
+                        console.log(22222222222);
+                        break;
                     }
                     break;
                 
